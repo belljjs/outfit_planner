@@ -1,74 +1,99 @@
 class OutfitsController < ApplicationController
-  before_action :set_outfit, only: [:show, :edit, :update, :destroy]
+  require 'httparty'
+  require 'date'
+  require 'time'
 
-  # GET /outfits
-  # GET /outfits.json
-  def index
-    @outfits = Outfit.all
-  end
-
-  # GET /outfits/1
-  # GET /outfits/1.json
-  def show
-  end
-
-  # GET /outfits/new
-  def new
-    @outfit = Outfit.new
-  end
-
-  # GET /outfits/1/edit
-  def edit
-  end
-
-  # POST /outfits
-  # POST /outfits.json
   def create
-    @outfit = Outfit.new(outfit_params)
-
-    respond_to do |format|
-      if @outfit.save
-        format.html { redirect_to @outfit, notice: 'Outfit was successfully created.' }
-        format.json { render :show, status: :created, location: @outfit }
+      w = Weather.where("created_at > ?", Date.today).last
+      outfit = Outfit.new
+      outfit.date = Date.today
+      outfit.weather = w
+      outfit.high_temp = w.high_temp
+      outfit.user = current_user
+      outfit.item_ids = outfit_params[:item_ids]
+      ids = outfit.items
+      if outfit.save
+          flash[:success] = "An outfit is created!"
+           redirect_to items_path
       else
-        format.html { render :new }
-        format.json { render json: @outfit.errors, status: :unprocessable_entity }
+          flash[:danger] = "Outfit is not created!"
+           redirect_to items_path
       end
-    end
   end
 
-  # PATCH/PUT /outfits/1
-  # PATCH/PUT /outfits/1.json
-  def update
-    respond_to do |format|
-      if @outfit.update(outfit_params)
-        format.html { redirect_to @outfit, notice: 'Outfit was successfully updated.' }
-        format.json { render :show, status: :ok, location: @outfit }
-      else
-        format.html { render :edit }
-        format.json { render json: @outfit.errors, status: :unprocessable_entity }
+  def start
+      @weather = Weather.where("created_at >= ?", Time.now - 1.hour).last
+      if @weather.blank?
+          forecast = fetch_weather["DailyForecasts"]
+          @weather = Weather.new(
+              high_temp: forecast[0]["Temperature"]["Maximum"]["Value"],
+              low_temp: forecast[0]["Temperature"]["Minimum"]["Value"],
+              description: forecast[0]["Day"]["IconPhrase"],
+              name: forecast[0]["Day"]["IconPhrase"],
+              icon: forecast[0]["Day"]["Icon"]
+          )
+          @weather.icon_src = weatherImage(@weather.icon)
+          if !@weather.save
+              @weather = false     
+          end       
       end
-    end
+      getOutfit()
+      checkItem()
   end
 
-  # DELETE /outfits/1
-  # DELETE /outfits/1.json
+  def index
+      @outfits = Outfit.where("user_id = ?", current_user).order("created_at desc").limit(10) 
+  end
+
   def destroy
-    @outfit.destroy
-    respond_to do |format|
-      format.html { redirect_to outfits_url, notice: 'Outfit was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+      outfit = Outfit.find params[:id]
+      joints = Joint.where("outfit_id = :current_outfit", {current_outfit: outfit})
+      joints.each do |j|
+          j.destroy
+      end
+      outfit.destroy
+      redirect_to outfits_path
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_outfit
-      @outfit = Outfit.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def outfit_params
-      params.require(:outfit).permit(:weather_id, :user_id, :high_temp, :date)
-    end
+  def fetch_weather
+      city = 'Vancouver'
+      country = 'ca'
+      url = "http://dataservice.accuweather.com/forecasts/v1/daily/1day/53286?apikey=#{ENV["WEATHER_API_KEY"]}&metric=true"
+      forecast = HTTParty.get(url,:headers =>{'Content-Type' => 'application/json'})
+  end
+
+  def getOutfit
+      w = Weather.where("created_at > ?", Date.today).last
+      @outfit = Outfit.where("user_id = :current AND high_temp >= :low AND high_temp <= :high", {current: current_user, high: w.high_temp + 4, low: w.high_temp - 4 }).last
+  end
+
+  def checkItem
+      @item = Item.where("user_id = :current", {current: current_user }).last
+  end
+
+  def outfit_params
+      params.require(:outfit).permit( :item_ids => [])
+  end
+
+  def weatherImage(icon)
+      src=""
+      case icon
+      when 1, 2, 3
+          src="sunny.png"
+      when 4, 5, 6
+          src="partly_cloudy.png"
+      when 7, 8, 11
+          src="cloud.png"
+      when 12, 15, 18
+          src="rain_light.png"
+      when 13, 14, 16, 17
+          src="rain_s_cloudy.png"
+      when 19,20,21, 22, 23
+          src="snowy.icon.png"
+      else
+          src="nothing"
+      end
+  end
 end
