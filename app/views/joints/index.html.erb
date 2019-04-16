@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Joints</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Outfit</th>
+      <th>Item</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @joints.each do |joint| %>
+      <tr>
+        <td><%= joint.outfit %></td>
+        <td><%= joint.item %></td>
+        <td><%= link_to 'Show', joint %></td>
+        <td><%= link_to 'Edit', edit_joint_path(joint) %></td>
+        <td><%= link_to 'Destroy', joint, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Joint', new_joint_path %>

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Weather:</strong>
+  <%= @outfit.weather %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @outfit.user %>
+</p>
+
+<p>
+  <strong>High temp:</strong>
+  <%= @outfit.high_temp %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @outfit.date %>
+</p>
+
+<%= link_to 'Edit', edit_outfit_path(@outfit) %> |
+<%= link_to 'Back', outfits_path %>

@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Outfit:</strong>
+  <%= @joint.outfit %>
+</p>
+
+<p>
+  <strong>Item:</strong>
+  <%= @joint.item %>
+</p>
+
+<%= link_to 'Edit', edit_joint_path(@joint) %> |
+<%= link_to 'Back', joints_path %>

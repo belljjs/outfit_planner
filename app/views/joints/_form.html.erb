@@ -1,0 +1,27 @@
+<%= form_with(model: joint, local: true) do |form| %>
+  <% if joint.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(joint.errors.count, "error") %> prohibited this joint from being saved:</h2>
+
+      <ul>
+      <% joint.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :outfit_id %>
+    <%= form.text_field :outfit_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :item_id %>
+    <%= form.text_field :item_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
