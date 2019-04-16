@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Outfit Planr</title>
+    <title>Outfit Planner</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag 'application', media: 'all' %>
@@ -11,7 +11,7 @@
   <body>
     <nav class="navbar navbar-expand navbar-light">
       <%= link_to image_tag("collection.png", :class => "closet-icon"), {action: 'start', controller: 'outfits'} %>
-      <%= link_to 'Outfit Planr', first_path, class: "outfit-planner" %>
+      <%= link_to 'Outfit Planner', first_path, class: "outfit-planner" %>
       <button class="navbar-toggler bg-light " type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
       </button>
