@@ -31,7 +31,7 @@
    
         <% if !(@item) %>
             <div class='first-info'>
-                <h2 style="color: #4ba0b5;"> To plan your outfits, we need your fashion items.</h2> <br>
+                <h2 style="color: #4ba0b5;"> To plan your outfits, first add your fashion items.</h2> <br>
                 <h5> First, store your items into your closet with 
                      <span>
                          <%= link_to new_item_path do %>
@@ -50,7 +50,9 @@
                          <%= link_to get_sample_items_path do %>
                              <button type="button" class="c-button">Sample Items</button>
                          <% end %> 
-                     </span>. Then, start to make outfits. </h5>
+                     </span>. Then, start to make outfits. 
+                     <p> Click logo to see proposal for this weather.</p>
+                </h5>
             </div>
         <% else %>
             <h2 class="proposal-title"> Proposal for today  </h2>
