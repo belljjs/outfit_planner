@@ -1,39 +1,174 @@
-<p id="notice"><%= notice %></p>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-1-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"> Your Choices</h5>
+                <button type="button" id= "modal-1-close" class="close x-modal" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <%= form_for(@outfit) do |f| %>
+                    <div id="form-inside">
+                        <%= f.submit "Save this outfit",  class: "ok-btn" %>
+                    </div>
+                <% end %>
+            </div>
+            <div class="modal-body modal-1-body" style="display :flex; flex-wrap:wrap">
+            </div>
+        </div>
+    </div>
+</div>
+<main class="closet-middle">
+    <div class="filter-group">
+        <h2 class='title items-title'> My Closet </h2>
 
-<h1>Items</h1>
+        <div class="filters">
+            <div class=" button-group-vertical top" role="group" aria-label="Basic example">
+                <button id="top-btn" type="button" class="btn btn-outline-info w-100">
+                    Top
+                </button>
+            </div>
+            <div class=" button-group-vertical bottom" role="group" aria-label="Basic example">
+                <button id="bottom-btn" type="button" class="btn btn-outline-info w-100">
+                Bottom
+                </button>
+            </div> 
+            <div class=" button-group-vertical dress" role="group" aria-label="Basic example">
+                <button id="dress-btn" type="button" class="btn btn-outline-info w-100">
+                Dress
+                </button>
+            </div> 
+            <div class="button-group-vertical  shoes" role="group" aria-label="Basic example">
+                <button id="shoes-btn" type="button" class="btn btn-outline-info w-100" >
+                Shoes
+                </button>
+            </div>   
+            <div class="button-group-vertical  bag" role="group" aria-label="Basic example">
+                <button id="bag-btn" type="button" class="btn btn-outline-info w-100" >
+                    Bag
+                </button>
+            </div> 
+            <div class="button-group-vertical  all" role="group" aria-label="Basic example">
+                <button id="all-btn" type="button" class="btn btn-outline-info w-100" >
+                    All
+                </button>
+            </div>  
+        </div>
+    </div>
+    <div class="items-section">
+        <p class="outfit-info"> Click items to choose them for your outfit </p>  
+        <div class="items" >
+            <% @items.each do |item| %>
+                <div id="<%=item.id%>" class="item-container left item-each active card-group  mb-3 mr-3 
+                    <%=item.category.name%> <%=item.season.name%> <%=item.occasion.name%>"
+                    style="max-width: 18rem;" >
+                    <% if item.image.attached? %>
+                        <%= image_tag item.image.variant(resize: "177x177") %>
+                    <%else%>
+                        No image!!!
+                    <% end %>
+                </div>
+            <% end %>
+         </div>
+    </div>
+    <div>
+        <p class="outfit-info"> Click items to cancel your choice </p>  
+        <div class="bucket-image">
+            <div id="bucketDiv" > </div>
+            <div id="expander">
+                <button id="bucket-check" class=" action" data-toggle="modal" data-target="#exampleModal">
+                    <!-- <i class="fas fa-expand-arrows-alt" style="font-size: 1em; color: darkgrey;" aria-hidden="true"></i> -->
+                    <%= image_tag("magnify.png", :class => "magnify") %>
+                </button> 
+            </div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Count</th>
-      <th>Purchase year</th>
-      <th>User</th>
-      <th>Color</th>
-      <th>Season</th>
-      <th>Category</th>
-      <th>Occasion</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+        </div>
+    </div>
+   
+</main>
 
-  <tbody>
-    <% @items.each do |item| %>
-      <tr>
-        <td><%= item.count %></td>
-        <td><%= item.purchase_year %></td>
-        <td><%= item.user %></td>
-        <td><%= item.color %></td>
-        <td><%= item.season %></td>
-        <td><%= item.category %></td>
-        <td><%= item.occasion %></td>
-        <td><%= link_to 'Show', item %></td>
-        <td><%= link_to 'Edit', edit_item_path(item) %></td>
-        <td><%= link_to 'Destroy', item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<script>
+document.querySelector("#top-btn")
+    .addEventListener("click", evt => {
+        $("div.left").hide();$("div.Top.left").show();
+        $("#bucketDiv>div").removeClass('active'); $("#bucketDiv>div.Top").addClass('active'); 
+    })
+document.querySelector("#bottom-btn")
+    .addEventListener("click", evt => {
+        $("div.left").hide();$("div.Bottom.left").show();
+        $("#bucketDiv>div").removeClass('active'); $("#bucketDiv>div.Bottom").addClass('active'); 
+    })
+document.querySelector("#dress-btn")
+    .addEventListener("click", evt => {
+        $("div.left").hide();$("div.Dress.left").show();
+        $("#bucketDiv>div").removeClass('active'); $("#bucketDiv>div.Dress").addClass('active'); 
+})
+document.querySelector("#shoes-btn")
+    .addEventListener("click", evt => {
+        $("div.left").hide();$("div.Shoes.left").show();
+        $("#bucketDiv>div").removeClass('active'); $("#bucketDiv>div.Shoes").addClass('active'); 
+    })
+document.querySelector("#bag-btn")
+    .addEventListener("click", evt => {
+        $("div.left").hide();$("div.Bag.left").show();
+        $("#bucketDiv>div").removeClass('active'); $("#bucketDiv>div.Bag").addClass('active'); 
+    })
+document.querySelector("#all-btn")
+.addEventListener("click", evt => {
+    $("div.left").show();
+    $("#bucketDiv>div").addClass('active'); 
+})
 
-<br>
+function moveRight(node){
+    node.removeClass('left')
+    node.addClass('right')   
+    $("#bucketDiv").append(node);
+} 
+function moveLeft(node){
+    node.removeClass('right')
+    node.addClass('left')   
+    $(".items").prepend(node); 
+    if (!node.hasClass('active')) {
+        node.hide()
+    }
+} 
 
-<%= link_to 'New Item', new_item_path %>
+$(document).on("click", ".item-container", function(){
+    const divClicked = $(this);
+
+    let item_id = divClicked.get(0).id;
+    if (divClicked.hasClass('left')) {
+        moveRight(divClicked);
+        $('<input/>').attr({type:'hidden', name:'outfit[item_ids][]', value: item_id }).appendTo('#form-inside');
+    }else {
+        moveLeft(divClicked);
+        $(`input[value= ${item_id}]`).remove();
+    }    
+
+    let bucketLength = $("#bucketDiv>div").length;
+    if (bucketLength > 0){
+        $("#bucket-check").css('visibility','visible');
+        $('#bucketDiv').css({'border-color':'darkgrey', 'border-style':'solid', 'border-width':'2px'});
+    }else if (bucketLength === 0){
+        $("#bucket-check").css('visibility','hidden');
+        $("#bucketDiv").css('border', 'none');
+    }
+})
+
+$(document).on("click", "#bucket-check", function(){
+    $(".modal-dialog.modal-1-dialog").css({'max-width':600, 'height':'auto'})
+    $("#bucketDiv>div").clone().css({'height': 250, 'width': 250}).removeClass('item-container').appendTo(".modal-body.modal-1-body");
+    $(".modal-body>div>img").css({'width':250, 'height':'auto'})
+});
+
+$(document).on("click", "#modal-1-close", function(){
+    let inModal = $(".modal-1-body>div")
+    inModal.remove();
+})
+
+</script>
+
+
+
+
+
+

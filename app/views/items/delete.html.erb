@@ -1,0 +1,154 @@
+<main class="closet-middle">
+    <div class="filter-group">
+        <h2 class='title items-title'> Delete Item </h2>
+        
+        <div class="filters">
+            <div class=" button-group-vertical top" role="group" aria-label="Basic example">
+                <button id="top-btn" type="button" class="btn btn-outline-info w-100">
+                    Top
+                </button>
+            </div>
+            <div class=" button-group-vertical bottom" role="group" aria-label="Basic example">
+                <button id="bottom-btn" type="button" class="btn btn-outline-info w-100">
+                Bottom
+                </button>
+            </div> 
+            <div class=" button-group-vertical dress" role="group" aria-label="Basic example">
+                <button id="dress-btn" type="button" class="btn btn-outline-info w-100">
+                Dress
+                </button>
+            </div>
+
+            <div class="button-group-vertical  shoes" role="group" aria-label="Basic example">
+                <button id="shoes-btn" type="button" class="btn btn-outline-info w-100" >
+                Shoes
+                </button>
+            </div>   
+
+            <div class="button-group-vertical  bag" role="group" aria-label="Basic example">
+                <button id="bag-btn" type="button" class="btn btn-outline-info w-100" >
+                    Bag
+                </button>
+            </div> 
+            
+            <div class="button-group-vertical  all" role="group" aria-label="Basic example">
+                <button id="all-btn" type="button" class="btn btn-outline-info w-100" >
+                    All
+                </button>
+
+            </div>  
+        </div>
+    </div>
+    <div>
+        <p class="outfit-info"> Click an item to delete it </p>  
+        <div class="items" >
+            <% @items.each do |item| %>
+                <div class="item-container left item-each active card-group  mb-3 mr-3 
+                            <%=item.category.name%> <%=item.season.name%> <%=item.occasion.name%>"
+                            style="max-width: 18rem;" id=<%=item.id%>  >
+                        <% if item.image.attached? %>
+                            <%= image_tag item.image.variant(resize: "177x177") %>
+                        <%else%>
+                            No image!!!
+                        <% end %>
+                </div>
+            <% end %>
+        </div>
+    </div>
+    <div class= "delete-bucket-group">
+
+        <div id="delete-bucket" class="empty" >
+        </div>
+        <div class= "delete-icon-group">
+            <div id="delete-cancel-icon">
+                <button type="button" class="c-button">cancel</button>
+                <!-- <i class="fas fa-ban"></i> -->
+            </div>
+
+            <div id="delete-icon" >
+                <button type="button" class="c-button">delete</button>
+                <!-- <i class="fas fa-trash-alt"></i> -->
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+$(document).ready(function(){
+    $("#delete-cancel-icon, #delete-icon").hide();
+});
+
+document.querySelector("#top-btn")
+    .addEventListener("click", evt => {
+        $("div.left").hide();$("div.Top.left").show();
+    })
+document.querySelector("#bottom-btn")
+    .addEventListener("click", evt => {
+        $("div.left").hide();$("div.Bottom.left").show();
+    })
+document.querySelector("#dress-btn")
+    .addEventListener("click", evt => {
+        $("div.left").hide();$("div.Dress.left").show();
+})
+document.querySelector("#shoes-btn")
+    .addEventListener("click", evt => {
+        $("div.left").hide();$("div.Shoes.left").show();
+    })
+document.querySelector("#bag-btn")
+    .addEventListener("click", evt => {
+        $("div.left").hide();$("div.Bag.left").show();
+    })
+document.querySelector("#all-btn")
+    .addEventListener("click", evt => {
+        $("div.left").show();
+})
+
+$(document).on("click", ".item-container", function(){
+    const divClicked = $(this);
+    const body = $(this).find("div");
+    const image = $(this).find("img")
+    if ($("#delete-bucket").hasClass("empty")) {
+        divClicked.addClass('activated-for-delete');
+        image.clone()
+            .css({'border':'darkgrey solid 3px', 'width':250, 'height':'auto', 'border-radious': '5px"'})
+            .appendTo("#delete-bucket")
+        $("#delete-bucket").toggleClass("empty")
+        $("#delete-cancel-icon, #delete-icon").show();     
+    };
+});
+   
+$(document).on("click", "#delete-icon", function(event){
+    let toContinue = confirm("Are you sure you want to delete it?");
+    if (!toContinue){
+        return;
+    }
+    event.preventDefault();
+
+    const node = $(".activated-for-delete")
+    const id = $(".activated-for-delete")[0].id;
+    const formData = new FormData();
+    formData.append("authenticity_token", "<%= form_authenticity_token %>");
+
+    fetch(`/items/${id}`, { method: 'DELETE', credentials: "same-origin", body: formData })
+    .then(res => res.json())
+    .then(result => {
+        if (result && result.success){
+            $("#delete-bucket").find("img").remove();
+            $("#delete-bucket").toggleClass("empty");
+            $("#delete-cancel-icon, #delete-icon").hide();
+            node.remove()
+        } else {
+            alert("Server error. Sorry... Couldn't delete")
+        }
+    });
+})
+
+$(document).on("click", "#delete-cancel-icon", function(){
+    const node = $(".activated-for-delete")
+    node.removeClass("activated-for-delete")
+    $("#delete-bucket").find("img").remove();
+    $("#delete-bucket").toggleClass("empty");
+    $("#delete-cancel-icon, #delete-icon").hide();
+})
+
+</script>
