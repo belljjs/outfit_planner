@@ -1,33 +1,42 @@
-<p id="notice"><%= notice %></p>
+<main class="outfit-index">
+<h2 class='title outfits-title'> My Outfits </h2>
 
-<h1>Outfits</h1>
+<% if(@outfits) %>
+    <ul class="ul-outfits">
+        <% @outfits.each do |o| %>
+            <li>
+                <div class="outfit-date">
+                    <%= o.date.to_formatted_s.to_date.strftime('%a, %d %b %Y') %>
+                </div>
+                <div class="outfit-weather"> 
+                    <div class="outfit-weather-name">
+                        <%=o.weather.description%>
+                    </div>
+                    <div>
+                        <span>
+                            <%= image_tag o.weather.icon_src, class: "outfit-weather-icon" %>
+                        </span>
+                        <span class="outfit-high-temp">
+                            <%= o.weather.high_temp %> ºC 
+                        </span>
+                    </div>
+                </div>
+                <div class="each-outfit">
+                    <% o.items.each do |i| %>
+                        <div class="each-outfit-item">
+                            <%= image_tag i.image.variant(resize: "100x100") %>
+                        </div>
+                    <%end%>
+                </div>
+                <%= link_to outfit_path(o.id), method: :delete, data: {confirm: "Are you sure?"}  do %>
+                    <!--<div id="delete-icon" style="font-size: 1.5rem; color: lightgreen; display " > -->
+                    <div id="delete-icon" class="trash" >
+                         <i class="fas fa-trash-alt"></i> 
+                    </div>
+                <% end %>  
+            </li> 
+        <%end%>
+    </ul>
+<% end %>
+</main>
 
-<table>
-  <thead>
-    <tr>
-      <th>Weather</th>
-      <th>User</th>
-      <th>High temp</th>
-      <th>Date</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @outfits.each do |outfit| %>
-      <tr>
-        <td><%= outfit.weather %></td>
-        <td><%= outfit.user %></td>
-        <td><%= outfit.high_temp %></td>
-        <td><%= outfit.date %></td>
-        <td><%= link_to 'Show', outfit %></td>
-        <td><%= link_to 'Edit', edit_outfit_path(outfit) %></td>
-        <td><%= link_to 'Destroy', outfit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'New Outfit', new_outfit_path %>

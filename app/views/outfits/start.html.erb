@@ -1,0 +1,108 @@
+<main class="outfit-start">
+    <% if (current_user) %>
+        <div class="weather-info-box">
+            <% if @weather %>
+
+                <div class="weather-info">
+                        <div>
+                            <%= image_tag @weather.icon_src, class: "weather-icon" %>
+                        </div>
+                        <div>
+                            <span class="high-temp">
+                                <%= @weather.high_temp %> ºC 
+                            </span>
+                            <span class="slash">/</span>
+                            <span class="low-temp">
+                                <%= @weather.low_temp %> ºC
+                            </span>
+                        </div>
+                        <div class="weather-name">
+                                <%= @weather.name %>
+                        </div>
+                </div>
+                <div class="date">
+                    <%= @weather.created_at.to_formatted_s.to_date.strftime('%a, %d %b %Y') %>
+                </div>
+
+            <% else %>
+                "No weather"
+            <% end %>
+        </div>
+   
+        <% if !(@item) %>
+            <div class='first-info'>
+                <h2 style="color: #4ba0b5;"> To plan your outfits, we need your fashion items.</h2> <br>
+                <h5> First, store your items into your closet with 
+                     <span>
+                         <%= link_to new_item_path do %>
+                           <button type="button" class="c-button ">Add Item</button>  
+                        <% end %>
+                     </span>. </h5>
+                <h5> Then, to make outfits, click 
+                     <span>
+                         <%= link_to items_path do %>
+                            <button type="button" class="c-button ">Closet</button>                
+                         <% end %>
+                     </span> to open your closet. </h5><br>
+                <h5 style="text_align: center"> OR </h5>  <br>   
+                <h5> 
+                     <span> For trial, just get sample items with
+                         <%= link_to get_sample_items_path do %>
+                             <button type="button" class="c-button">Sample Items</button>
+                         <% end %> 
+                     </span>. Then, start to make outfits. </h5>
+            </div>
+        <% else %>
+            <h2 class="proposal-title"> Proposal for today  </h2>
+            <% if(@outfit) %>
+                    <div class="suggestion">
+                        <% @outfit.items.each do |i| %>
+                            <div class="suggestion-item">
+                                <%= image_tag i.image.variant(resize: "200x200") %>
+                            </div>
+                        <%end%>
+                    </div> 
+            <% else %>
+                <div class='proposal-info'>
+                    <p > Proposal is made from the outfits you have made before.  </p>
+                    <p > There is no outfit history yet. </p>
+                </div>
+            <% end %>
+        <% end %>
+   
+        <%= form_for :items,  url: items_path, method: :get do |f| %>
+            <div class="select-season-occasion">
+                <div>
+                    <%= f.submit "Open Closet",  class: "btn btn-info closet-button" %>
+                </div>
+                <div class="option-names">
+                    <div class="option-name"> Season </div>
+                    <div class="option-name"> Occasion </div>                     
+                </div>
+                <div class="options">
+                    <div class="radio-reform">
+                        <%= collection_radio_buttons(:items, :season_id, Season.all, :id, :name, {}, {:class => 'radio-button'}) %>
+                    </div>
+                    <div class="radio-reform">
+                        <%= collection_radio_buttons(:items, :occasion_id, Occasion.all, :id, :name, {}, {:class => 'radio-button'}) %>
+                    </div>
+                </div>
+
+            </div>
+        <% end %>
+        
+    <% else %>
+            <h2 class="title start-title"> Design Your Outfit </h2>
+            <div class="f-images">
+                <%= image_tag("winter2.jpeg", :class => "f1")%>
+                <%= image_tag("winter9.jpeg", :class => "f1")%>
+                <%= image_tag("winter14.jpeg", :class => "f1")%>
+                <%= image_tag("winter10.jpeg", :class => "f1")%>
+            </div>
+
+    <% end %>
+   
+</main>
+
+
+
