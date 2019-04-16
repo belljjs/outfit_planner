@@ -1,49 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Outfit Planr</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', media: 'all' %>
+    <%= javascript_include_tag 'application' %>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand navbar-light">
+      <%= link_to image_tag("collection.png", :class => "closet-icon"), {action: 'start', controller: 'outfits'} %>
+      <%= link_to 'Outfit Planr', first_path, class: "outfit-planner" %>
+      <button class="navbar-toggler bg-light " type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
+        <div class="menu mr-4">
+          <% if current_user.present? %> 
+              <span class="username"> <strong><%= current_user.first_name %> </strong></span>
+              <%= link_to outfits_path do %>
+                <button type="button" class="c-button">Outfits</button>
+              <% end %>          
+              <%= link_to items_path do %>
+                <button type="button" class="c-button ">Closet</button>                
+              <% end %>
+              <%= link_to new_item_path do %>
+                <button type="button" class="c-button ">Add Item</button>  
+                <!--- <span class="sign plus" style="font-size: 1.8em; color: rgb(128, 124, 124);  margin-left: 0.8em">  -->
+                <!--- <i class="fas fa-plus"></i> -->
+                <!--- </span> -->
+              <% end %>
+              <%= link_to delete_items_path do %>
+                <button type="button" class="c-button ">Delete Item</button>  
+                <!--- <span class="sign minus" style="font-size: 1.8em; color:  rgb(128, 124, 124); margin-left: 0.8em"> -->
+                <!---  <i class="fas fa-minus"></i> -->
+                <!--- </span> -->
+              <% end %>
 
-<main id="main-new">
-<div id="form-new">
-    <h2 class='title new-item-title'> Add Item </h2>
-    <%= form_for(@item) do |f| %>
-        <div class="form-group">
-            <p class="find-image-info">Find item image at your computer <p>
-            <label class="btn btn-info find-image" for="imgInp">
-                Find item
-            </label>
-            <%= f.file_field :image, id: "imgInp" %>
-        </div>
-        <div>
-            <div class="option-name"> Category </div>
-            <div>
-                <%= collection_select(:item, :category_id, Category.all, :id, :name, {}, {:class => 'minimal'}) %>
-            </div>
-        </div>
-        <div>
-            <div class="option-name"> Color </div>
-            <div>
-                <%= collection_select(:item, :color_id, Color.all, :id, :name, {}, {:class => 'minimal'}) %>
-            </div>
-        </div>
-        <div>
-            <div class="option-name"> Season </div>
-            <div>
-                <%= collection_select(:item, :season_id, Season.all, :id, :name,  {}, {:class => 'minimal'} ) %>
-            </div>
-        </div>
-        <div>
-            <div class="option-name"> Occasion </div>
-            <div>
-                <%= collection_select(:item, :occasion_id, Occasion.all, :id, :name, {}, {:class => 'minimal'}) %>
-            </div>
-        </div><br>
-        <div  class="form-group">  
-            <%= f.submit "Create Item",  class: "btn btn-outline-info" %>
-        </div>
-    <% end %>
-</div>
+              <%= link_to  session_path, method: :delete do %>
+                <span style="font-size: 1.8em; color:  rgb(128, 124, 124);  margin-left:1em">
+                <i class="fas fa-sign-out-alt"></i>
+                </span> 
+              <% end %>
+          <%else%>
 
-<div id="image-frame">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <img id="new-item-show" src="#" />
-</div>
-<main>
+              <%= link_to  new_session_path do %>
+                <span style="font-size: 1.8em; color: rgb(128, 124, 124);  margin-right:1em;">
+                    <i class="fas fa-sign-in-alt"></i>
+                </span>
+              <% end %>
+              <%= link_to  new_user_path do %>
+                <span style="font-size: 1.8em; color: rgb(128, 124, 124);  margin-right:1.5em;">
+                    <i class="fas fa-user-plus"></i>
+                </span>
+              <% end %>
+              <%= link_to  users_path, method: :post do %>
+                <span class='guest-btn'>
+                   Guest
+                </span>
+              <% end %>
+          <%end%>
+        </div>
+      </div>
+      
+      </nav>
+    
+    <div class="container-fluid">
+        <% flash.each do |type, message| %>
+          <div class="alert alert-<%= type %>">
+            <%= message %>
+          </div>
+        <% end %>
+      <%= yield %>
 
+    </div>
 
+  </body>
+</html>
