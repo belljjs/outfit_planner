@@ -1,0 +1,385 @@
+body {
+    margin: 0;
+  }
+* {
+    box-sizing: border-box;
+  }
+.padding {
+    margin: 4vw 15vw; 
+}
+.navbar{
+    background-color:white;
+    border-bottom: solid 2px lightgray; 
+    height: 14vh;
+    width: 100%; 
+}
+.menu{
+    display: flex;
+    align-items: center;
+}
+.container-fluid{
+    height: 80vh;
+}
+
+.suggestion{
+    display :flex;
+    margin-top: 3vh;
+    justify-content: center;
+    width: 100vw;
+}
+.suggestion-item, .each-outfit-items{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.each-outfit-item{
+    margin-left: 10px;
+}
+.each-outfit{
+    display :flex;
+    justify-content: start;
+    width: 50vw;
+}
+.outfit-date{
+    width: 17vw;
+    font-size: 1.2rem;
+    color: darkgrey;
+    margin-left: 13vw;
+}
+.o-button, .c-button{
+    background-color: white;
+    color: rgb(82, 79, 79); 
+    font-weight: 350;
+    font-size: 1.2rem;
+    margin-left: 0.5em;
+    border: solid 3px rgb(182, 176, 176);
+    border-radius: 15px;
+    cursor: pointer;
+}
+.c-button:hover {
+    color: #4ba0b5;
+    border: solid 3px  #4ba0b5;
+    outline: none;
+}
+.c-button:active {
+    color: #4ba0b5;
+    outline: none;
+}
+
+.proposal-title{
+    font-size: 2em ;
+    color: #4ba0b5;
+    text-align: center;
+    margin-top: 20px;
+
+}
+.title {
+    font-size: 2rem ;
+    color:#454545;
+}
+.session-title{
+    margin-left: 15vw;
+    margin-top: 2.5vw;   
+    margin-bottom: 1vw;   
+}
+.outfits-title{
+    text-align: center;
+    margin-bottom: 3vh;
+    padding-bottom: 2vh;
+    margin-top: 5vh;
+    margin-left: 15vw;
+    width: 75vw;
+    border-bottom: solid 5px rgb(184, 48, 132);
+}
+.start-title{
+    text-align: center;
+    margin-top: 10vh;
+    margin-bottom: 3vh;
+    color: darkgrey;
+}
+.new-item-title{
+    margin-left: 6vw;
+    padding-top: 3vh;
+    margin-bottom: 5vh;
+}
+.items-title{
+    margin-left: 8vw;
+    padding-top: 5vh;
+}
+.guest-btn{
+    font-size: 1.2em; 
+    color: rgb(82, 79, 79);  
+    margin-left:1em; 
+    border: solid 3px rgb(182, 176, 176);
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 15px;
+}
+.username{
+    margin-right: 35px;
+    font-size: 1.2em;
+    color:  rgb(139, 91, 139);
+}
+.closet-header{
+    display: flex;
+    justify-content: flex-end; 
+    margin-top: 10px;
+    margin-left: 30%;
+    margin-right: 10%;
+    margin-bottom: 10px;
+}
+#bucket-check{
+    margin-top: 250px;
+    background-color:white;
+    border: none;
+    visibility: hidden;
+    cursor: pointer;
+}
+.bucket-image{
+    display: flex;
+}
+.expander{
+    margin-top: 2%; 
+}
+.closet-middle{
+    display:flex;
+    margin: auto;
+    width: 95vw;
+    height: 595;
+}
+.filter-group{
+    display: flex;
+    flex-direction: column;
+    width: 22vw;
+}
+.filter-info{
+    margin-top: 30px;
+    margin-left: 35px;
+    color: grey;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: center; 
+}
+.filters{
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    width: 18vw;
+    margin-left: 4vw;
+    margin-right: 4vw;
+    margin-top: 3vw;
+}
+.proposal-info{
+    width: 70%;
+    margin: auto;
+    margin-top: 20px;
+    color: grey;
+    font-size: 1.2rem;
+    text-align: center;
+}
+.first-info{
+    width: 70%;
+    margin: auto;
+    margin-top: 20px;
+    color: grey;
+    font-size: 1.2rem;
+    text-align: center;
+}
+.outfit-info{
+    margin-top: 30px;
+    color: grey;
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-align: center;
+}
+li{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 3vh;
+}
+.items{
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-content: flex-start;
+    padding-top: 10px;
+    padding-left: 12px;
+    margin-top: 2%;
+    margin-left: 5vw;
+    height: 80vh;
+    width: 45vw;
+    border: none;
+    overflow-y: scroll;
+    border-radius: 6px;
+}
+.ul-outfits{
+    width: 90vw;
+    height: 550px;
+    overflow-y: scroll;
+}
+#bucketDiv{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;    
+    align-content: flex-start;
+    margin-left: 5vw;
+    width: 210px;
+    height: 80vh;
+    margin-top: 2%;
+    padding-left: 10px;
+    padding-top: 10px;
+    overflow-y: scroll;
+    border-radius: 6px;
+}
+.ok-btn{
+    color: rgb(34, 154, 224);
+    margin-left: 30px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    padding: none;
+    border: none;
+    background-color: white;
+}
+.x-modal{
+    margin-top: 5px;
+    color: orange;
+}
+.item-each{
+    height: 175px;
+    width: 175px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    min-height: 145px;
+}
+.top , .bottom , .shoes, .bag, .dress, .season,{
+    margin-bottom: 2vh;
+}
+ .occasion{
+    margin-bottom: 10vh;
+}
+.invisible {
+    visibility: hidden;
+  }
+.closet-button{
+    font-size: 1.5rem;
+    text-decoration-line: none;
+    margin-right: 10%;
+    margin-top: 8px;
+    height: 60px;
+    border-radius: 20px;
+    border: 4px solid #b6b0b0;
+    color:  #524f4f;
+    background-color: white;
+}
+.closet-button:hover{
+  
+    color: #4ba0b5;
+    background-color: white;
+    border: 4px solid #4ba0b5;
+    outline: none;
+}
+a:hover {
+    text-decoration: none;
+}
+.outfit-planner:hover{
+    color:  #1c6686; 
+}
+.trash{
+    font-size: 1.5rem;
+    color: rgb(90, 168, 142);
+    margin-top: 30px;
+}
+.outfit-planner {
+    color: #1c6686;
+    font-size: 2.5em;
+    margin-left: 1%;    
+}
+.select-season-occasion{
+    display:flex;
+    justify-content: center;  
+    margin-top: 10vh;
+}
+.outfit-start{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+.outfit-index{
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+.header-outfit{
+    display: flex;
+    flex-direction: row;
+    height: 40vh;
+}
+.magnify{
+    width: 70px;
+    margin-right: 10px;
+    height: 70px;  
+}
+.closet-icon{
+    width: 65px;
+    height: 65px;
+    border: solid 2px lightgrey;
+    border-radius: 4px;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+.modal-1-body{
+    padding-left: 35px;
+}
+.radio-button{
+    margin-left: 10px;
+}
+
+.f1{
+     width: 23%;
+     height: auto;
+     margin-left: 10px;
+     margin-right: 10px;
+}
+.option-names{
+    display: flex;
+    flex-direction: column;
+    margin-left: 30px;
+    margin-bottom: 5px;
+}
+.option-name{
+    height: 28px;      
+    color: palevioletred;
+    width: 70px;
+    margin-top: 10px;
+    background-color: white;    
+}
+.options{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+    margin-top: 8px;
+}
+.radio-reform{
+    width: 500px;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 12px;
+}
+.radio-reform label {
+    vertical-align: middle;
+    text-align: center;
+    width: 100px;
+    cursor: pointer;
+    background-color: rgb(234, 239, 243);
+    color: #454545;
+    border-radius: 3px;
+}
+// To Hide radio buttons 
+input[type="radio"]{
+    visibility: hidden;
+    height: 0;
+    width: 0;
+}
+//Style the label of checked radio input
+input[type="radio"]:checked + label{
+    background-color: #c9ebec;
+}

@@ -1,0 +1,30 @@
+#delete-bucket{
+    margin-left: 20%;
+    margin-top: 50%;
+    width: 250px;
+    height: 250px;
+}
+#delete-icon{
+    border: none;
+}
+#delete-cancel-icon{
+    margin-bottom: 10%;
+    margin: auto; 
+    margin-left: 50%; 
+   }
+.delete-icon-group{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    margin-bottom: 15px;
+}
+.delete-outfit{
+    color: green;
+}
+#delete-bucket-group{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20vw;
+    border:  solid 2px grey;
+ }
+ 
